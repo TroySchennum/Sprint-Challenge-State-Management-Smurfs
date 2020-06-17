@@ -8,18 +8,22 @@ import axios from "axios"
 
 function SmurfList(props) {
 
+//     useEffect(() => {
+//         props.addMember();
+//   }, []);
+
 
     const [formData, setFormData] = useState({});
 
-    let handleChanges = e => {
+    const handleChanges = e => {
         setFormData({
             ...formData, [e.target.name]: e.target.value
         });
     };
 
-    let onSubmit = evt => {
+    const onSubmit = evt => {
         evt.preventDefault();
-        props.addMember(props);
+        props.addMember(formData);
     }
 
 
@@ -27,15 +31,6 @@ function SmurfList(props) {
 
     return (
         <React.Fragment>
-            <div className="smurf-list" onSubmit={onSubmit}>
-                {props.members.map((member, index) => (
-                    <h4 key={index}>
-                        {member.name}
-                        {member.age}
-                        {member.height}
-                    </h4>
-                ))}
-            </div>
             <form onSubmit={onSubmit}>
                 <input
                     name= "name"
@@ -46,14 +41,14 @@ function SmurfList(props) {
                 />
                 <input
                     name= "age"
-                    type="text"
+                    type="number"
                     value={formData.age}
                     onChange={handleChanges}
                     placeholder="Add age"
                 />
                 <input
                     name="height"
-                    type="text"
+                    type="number"
                     value={formData.height}
                     onChange={handleChanges}
                     placeholder="Add height"
@@ -62,15 +57,24 @@ function SmurfList(props) {
                     Add smurf
                 </button>
             </form>
+            <div className="smurf-list" >
+                {props.member.map((member, index) => (
+                     <h4 key={index}>
+                        {member.name} is <pre></pre> 
+                        {member.age} Years old <pre></pre> 
+                        {member.height} cm tall
+                    </h4>
+                ))}
+            </div>
         </React.Fragment>
     );
 }
 
 
 const mapStateToProps = state => {
-    console.log(state);
+    console.log("state ", state);
     return {
-        members: state.smurfReducer.members
+        member: state.smurfReducer.member
     };
 };
 
